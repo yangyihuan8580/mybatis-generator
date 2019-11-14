@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhbc.base.dao.ConstructionDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.zhbc.base.entity.Construction" >
+	<result column="CONSTRUCTION_ID" property="cONSTRUCTIONID"/>
+	<result column="PARKDOC_ID" property="pARKDOCID"/>
+	<result column="D" property="d"/>
+	<result column="IS_ASSESS" property="iSASSESS"/>
+	<result column="ASSESS_PERSION" property="aSSESSPERSION"/>
+	<result column="ASSESS_DATE" property="aSSESSDATE"/>
+	<result column="REMARK" property="rEMARK"/>
+	<result column="TS" property="tS"/>
+</resultMap>
+       
+<!-- construction table all fields -->
+<sql id="Base_Column_List" >
+	 CONSTRUCTION_ID,PARKDOC_ID,D,IS_ASSESS,ASSESS_PERSION,ASSESS_DATE,REMARK,TS
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="condition.cONSTRUCTIONID != null and condition.cONSTRUCTIONID != ''" >
+	    and CONSTRUCTION_ID =  #{condition.cONSTRUCTIONID}
+	</if>
+	<if test="condition.pARKDOCID != null and condition.pARKDOCID != ''" >
+	    and PARKDOC_ID =  #{condition.pARKDOCID}
+	</if>
+	<if test="condition.d != null and condition.d != ''" >
+	    and D =  #{condition.d}
+	</if>
+	<if test="condition.iSASSESS != null and condition.iSASSESS != ''" >
+	    and IS_ASSESS =  #{condition.iSASSESS}
+	</if>
+	<if test="condition.aSSESSPERSION != null and condition.aSSESSPERSION != ''" >
+	    and ASSESS_PERSION =  #{condition.aSSESSPERSION}
+	</if>
+	<if test="condition.aSSESSDATE != null and condition.aSSESSDATE != ''" >
+	    and ASSESS_DATE =  #{condition.aSSESSDATE}
+	</if>
+	<if test="condition.rEMARK != null and condition.rEMARK != ''" >
+	    and REMARK =  #{condition.rEMARK}
+	</if>
+	<if test="condition.tS != null and condition.tS != ''" >
+	    and TS =  #{condition.tS}
+	</if>
+</trim>
+</sql>
+   
+
+<!-- 插入记录 -->
+<insert id="add" parameterType="Object" >
+<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID()
+  </selectKey>
+  insert into construction(CONSTRUCTION_ID,PARKDOC_ID,D,IS_ASSESS,ASSESS_PERSION,ASSESS_DATE,REMARK,TS)
+ values(#{cONSTRUCTIONID},#{pARKDOCID},#{d},#{iSASSESS},#{aSSESSPERSION},#{aSSESSDATE},#{rEMARK},#{tS})
+</insert>
+
+<!-- 根据id，修改记录-->  
+ <update id="update" parameterType="Object" >
+  update construction set PARKDOC_ID=#{pARKDOCID},D=#{d},IS_ASSESS=#{iSASSESS},ASSESS_PERSION=#{aSSESSPERSION},ASSESS_DATE=#{aSSESSDATE},REMARK=#{rEMARK},TS=#{tS} where CONSTRUCTION_ID=#{cONSTRUCTIONID}
+ </update>
+ 
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateBySelective" parameterType="Object" >
+	update construction set 
+	<trim  suffixOverrides="," >
+	<if test="pARKDOCID != null  ">
+		PARKDOC_ID=#{pARKDOCID},
+	</if>
+	<if test="d != null  ">
+		D=#{d},
+	</if>
+	<if test="iSASSESS != null  ">
+		IS_ASSESS=#{iSASSESS},
+	</if>
+	<if test="aSSESSPERSION != null  ">
+		ASSESS_PERSION=#{aSSESSPERSION},
+	</if>
+	<if test="aSSESSDATE != null  ">
+		ASSESS_DATE=#{aSSESSDATE},
+	</if>
+	<if test="rEMARK != null  ">
+		REMARK=#{rEMARK},
+	</if>
+	<if test="tS != null  ">
+		TS=#{tS},
+	</if>
+	</trim> where CONSTRUCTION_ID=#{cONSTRUCTIONID}
+</update>
+
+<!-- 删除记录 -->
+<delete id="delete" parameterType="Object">
+	delete 	 from construction where CONSTRUCTION_ID = #{cONSTRUCTIONID}
+</delete>
+ 
+<!-- 根据id查询 系统配置 -->
+<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+	select <include refid="Base_Column_List" /> 
+	 from construction where CONSTRUCTION_ID = #{cONSTRUCTIONID}
+</select>
+
+<!-- 系统配置 列表总数-->
+<select id="queryByCount" resultType="java.lang.Integer"  parameterType="Object">
+	select count(1) from construction 
+	<include refid="Example_Where_Clause"/>
+</select>
+  	
+<!-- 查询系统配置列表 -->
+<select id="queryByList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from construction 
+	<include refid="Example_Where_Clause"/>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by  ${orderByClause}
+    </if>
+    <if test="limitClause != null and limitClause != ''" >
+       ${limitClause}
+    </if>
+</select>
+  	
+</mapper>   

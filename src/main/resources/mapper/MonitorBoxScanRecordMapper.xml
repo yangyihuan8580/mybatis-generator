@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aipark.monitor.dao.MonitorBoxScanRecordDao" > 
+<!-- Result Map-->
+<resultMap id="BaseResultMap" type="com.aipark.monitor.entity.MonitorBoxScanRecord" >
+	<result column="SCAN_RECORD_ID" property="scanRecordId"/>
+	<result column="BARCODE" property="barcode"/>
+	<result column="NAME" property="name"/>
+	<result column="PARK_ID" property="parkId"/>
+	<result column="EVENT_TYPE" property="eventType"/>
+	<result column="EVENT_TIME" property="eventTime"/>
+	<result column="PARKINGAREA_ID" property="parkingareaId"/>
+	<result column="TERMINAL_ID" property="terminalId"/>
+</resultMap>
+       
+<!-- tob_monitor_box_scan_record table all fields -->
+<sql id="Base_Column_List" >
+	 SCAN_RECORD_ID,BARCODE,NAME,PARK_ID,EVENT_TYPE,EVENT_TIME,PARKINGAREA_ID,TERMINAL_ID
+</sql>
+   
+   
+<!-- 查询条件 -->
+<sql id="Example_Where_Clause">
+where 1=1
+<trim  suffixOverrides="," >
+	<if test="scanRecordId != null and scanRecordId != ''" >
+	    and SCAN_RECORD_ID =  #{scanRecordId}
+	</if>
+	<if test="barcode != null and barcode != ''" >
+	    and BARCODE =  #{barcode}
+	</if>
+	<if test="name != null and name != ''" >
+	    and NAME =  #{name}
+	</if>
+	<if test="parkId != null and parkId != ''" >
+	    and PARK_ID =  #{parkId}
+	</if>
+	<if test="eventType != null and eventType != ''" >
+	    and EVENT_TYPE =  #{eventType}
+	</if>
+	<if test="eventTime != null and eventTime != ''" >
+	    and EVENT_TIME =  #{eventTime}
+	</if>
+	<if test="parkingareaId != null and parkingareaId != ''" >
+	    and PARKINGAREA_ID =  #{parkingareaId}
+	</if>
+	<if test="terminalId != null and terminalId != ''" >
+	    and TERMINAL_ID =  #{terminalId}
+	</if>
+</trim>
+</sql>
+   
+<!-- 根据id查询 内场票箱扫码枪设备状态记录表 -->
+<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="java.lang.String">
+	select <include refid="Base_Column_List" /> 
+	 from tob_monitor_box_scan_record where SCAN_RECORD_ID = #{scanRecordId}
+</select>
+<!-- 删除记录 -->
+<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	delete 	 from tob_monitor_box_scan_record where SCAN_RECORD_ID = #{scanRecordId}
+</delete>
+<!-- 插入记录 -->
+<insert id="insert" parameterType="com.aipark.monitor.entity.MonitorBoxScanRecord" >
+  insert into tob_monitor_box_scan_record(SCAN_RECORD_ID,BARCODE,NAME,PARK_ID,EVENT_TYPE,EVENT_TIME,PARKINGAREA_ID,TERMINAL_ID)
+ values(#{scanRecordId},#{barcode},#{name},#{parkId},#{eventType},#{eventTime},#{parkingareaId},#{terminalId})
+</insert>
+
+<!-- 插入记录 -->
+<insert id="insertSelective" parameterType="com.aipark.monitor.entity.MonitorBoxScanRecord" >
+  insert into tob_monitor_box_scan_record
+	<trim  prefix="(" suffix=")"  suffixOverrides="," >
+	<if test="scanRecordId != null  ">
+		SCAN_RECORD_ID,
+	</if>
+	<if test="barcode != null  ">
+		BARCODE,
+	</if>
+	<if test="name != null  ">
+		NAME,
+	</if>
+	<if test="parkId != null  ">
+		PARK_ID,
+	</if>
+	<if test="eventType != null  ">
+		EVENT_TYPE,
+	</if>
+	<if test="eventTime != null  ">
+		EVENT_TIME,
+	</if>
+	<if test="parkingareaId != null  ">
+		PARKINGAREA_ID,
+	</if>
+	<if test="terminalId != null  ">
+		TERMINAL_ID,
+	</if>
+	</trim>
+	<trim  prefix="values (" suffix=")"  suffixOverrides="," >
+	<if test="scanRecordId != null  ">
+		#{scanRecordId},
+	</if>
+	<if test="barcode != null  ">
+		#{barcode},
+	</if>
+	<if test="name != null  ">
+		#{name},
+	</if>
+	<if test="parkId != null  ">
+		#{parkId},
+	</if>
+	<if test="eventType != null  ">
+		#{eventType},
+	</if>
+	<if test="eventTime != null  ">
+		#{eventTime},
+	</if>
+	<if test="parkingareaId != null  ">
+		#{parkingareaId},
+	</if>
+	<if test="terminalId != null  ">
+		#{terminalId},
+	</if>
+	</trim>
+</insert>
+ <!-- 修改记录，只修改只不为空的字段 -->
+<update id="updateByPrimaryKeySelective" parameterType="com.aipark.monitor.entity.MonitorBoxScanRecord" >
+	update tob_monitor_box_scan_record set 
+	<trim  suffixOverrides="," >
+	<if test="barcode != null  ">
+		BARCODE=#{barcode},
+	</if>
+	<if test="name != null  ">
+		NAME=#{name},
+	</if>
+	<if test="parkId != null  ">
+		PARK_ID=#{parkId},
+	</if>
+	<if test="eventType != null  ">
+		EVENT_TYPE=#{eventType},
+	</if>
+	<if test="eventTime != null  ">
+		EVENT_TIME=#{eventTime},
+	</if>
+	<if test="parkingareaId != null  ">
+		PARKINGAREA_ID=#{parkingareaId},
+	</if>
+	<if test="terminalId != null  ">
+		TERMINAL_ID=#{terminalId},
+	</if>
+	</trim> where SCAN_RECORD_ID=#{scanRecordId}
+</update>
+<!-- 根据id，修改记录-->  
+ <update id="updateByPrimaryKey" parameterType="com.aipark.monitor.entity.MonitorBoxScanRecord" >
+  update tob_monitor_box_scan_record set BARCODE=#{barcode},NAME=#{name},PARK_ID=#{parkId},EVENT_TYPE=#{eventType},EVENT_TIME=#{eventTime},PARKINGAREA_ID=#{parkingareaId},TERMINAL_ID=#{terminalId} where SCAN_RECORD_ID=#{scanRecordId}
+ </update>
+  	
+<!-- 查询内场票箱扫码枪设备状态记录表列表 -->
+<select id="selectList" resultMap="BaseResultMap"  parameterType="Object">
+	select 
+	<include refid="Base_Column_List"/>
+	from tob_monitor_box_scan_record 
+	<include refid="Example_Where_Clause"/>
+	<if test="orderByClause != null and orderByClause != ''" >
+       order by  ${orderByClause}
+    </if>
+</select>
+</mapper>   
