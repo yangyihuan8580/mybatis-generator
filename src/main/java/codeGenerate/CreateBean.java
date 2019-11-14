@@ -7,6 +7,7 @@ import codeGenerate.def.TableConvert;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -116,7 +117,7 @@ public class CreateBean {
 	public String getBeanFeilds(String tableName) throws SQLException {
 		List<ColumnData> dataList = getColumnDatas(tableName);
 		StringBuffer str = new StringBuffer();
-		StringBuffer getset = new StringBuffer();
+//		StringBuffer getset = new StringBuffer();
 		for (ColumnData d : dataList) {
 			String name = codeGenerate.def.CommUtil.formatName(d.getColumnName());
 			String type = d.getDataType();
@@ -125,13 +126,13 @@ public class CreateBean {
 			String maxChar = name.substring(0, 1).toUpperCase();
 			str.append("\r\t").append("private ").append(type + " ").append(name).append(";//   ").append(comment);
 			String method = maxChar + name.substring(1, name.length());
-			getset.append("\r\t").append("public ").append(type + " ").append("get" + method + "() {\r\t");
-			getset.append("    return this.").append(name).append(";\r\t}");
-			getset.append("\r\t").append("public void ").append("set" + method + "(" + type + " " + name + ") {\r\t");
-			getset.append("    this." + name + "=").append(name).append(";\r\t}");
+//			getset.append("\r\t").append("public ").append(type + " ").append("get" + method + "() {\r\t");
+//			getset.append("    return this.").append(name).append(";\r\t}");
+//			getset.append("\r\t").append("public void ").append("set" + method + "(" + type + " " + name + ") {\r\t");
+//			getset.append("    this." + name + "=").append(name).append(";\r\t}");
 		}
 		argv = str.toString();
-		this.method = getset.toString();
+//		this.method = getset.toString();
 		return argv + this.method;
 	}
 
@@ -221,6 +222,8 @@ public class CreateBean {
 			dataType = "java.sql.Timestamp";
 		else if (dataType.contains("clob"))
 			dataType = "java.sql.Clob";
+		else if (dataType.contains("decimal"))
+			dataType = "java.math.BigDecimal";
 		else {
 			dataType = "java.lang.Object";
 		}
