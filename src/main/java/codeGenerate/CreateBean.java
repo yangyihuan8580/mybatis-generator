@@ -292,6 +292,9 @@ public class CreateBean {
 		String updateSelective = getUpdateSelectiveSql(tableName, columnDatas);
 		String selectById = getSelectByIdSql(tableName, columnList);
 		String delete = getDeleteSql(tableName, columnList);
+        String deleteByIdFalse = getDeleteByIdFalseSql(tableName, columnList);
+
+
 //		sqlMap.put("insertInBatch", insertInBatch);
 		sqlMap.put("columnList", columnList);
 		sqlMap.put("columnFields", columnFields);
@@ -300,14 +303,22 @@ public class CreateBean {
 		sqlMap.put("update", update.replace("#{createdTime}", "now()").replace("#{modifyTime}", "now()"));	 
 		sqlMap.put("delete", delete);
 		sqlMap.put("updateSelective", updateSelective);
+		sqlMap.put("deleteByIdFalse", deleteByIdFalse);
 		sqlMap.put("selectById", selectById);
 		sqlMap.put("keyName", CommUtil.formatName(columnList[0]));
 		return sqlMap;
 	}
 
-	  
+    private String getDeleteByIdFalseSql(String tableName, String[] columnsList) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("update ").append(tableName);
+        sb.append("\t set D = 1 ").append(tableName).append(" where ");
+        sb.append(columnsList[0]).append(" = #{").append(CommUtil.formatName(columnsList[0])).append("}");
+        return sb.toString();
+    }
 
-	public String getDeleteSql(String tableName, String[] columnsList) throws SQLException {
+
+    public String getDeleteSql(String tableName, String[] columnsList) throws SQLException {
 		StringBuffer sb = new StringBuffer();
 		sb.append("delete ");
 		sb.append("\t from ").append(tableName).append(" where ");

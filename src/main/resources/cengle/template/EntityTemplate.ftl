@@ -1,6 +1,6 @@
 package ${bussPackage}.entity#if($!entityPackage).${entityPackage}#end;
 
-import com.zhbc.framework.vo.SuperVO;
+import com.yyh.common.base.SuperVO;
 import lombok.Data;
 
 /**

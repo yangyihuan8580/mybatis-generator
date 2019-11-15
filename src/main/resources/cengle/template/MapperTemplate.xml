@@ -33,15 +33,21 @@ where 1=1
 </sql>
    
 <!-- 根据id查询 ${codeName} -->
-<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="java.lang.String">
+<select id="selectByPrimaryKey"  resultMap="BaseResultMap" parameterType="java.lang.Long">
 	$!{SQL.selectById}
 </select>
 <!-- 删除记录 -->
-<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 	$!{SQL.delete}
 </delete>
+
+<!-- 删除记录 -->
+<delete id="deleteByIdFalse" parameterType="java.lang.Long">
+	$!{SQL.deleteByIdFalse}
+</delete>
+
 <!-- 插入记录 -->
-<insert id="insert" parameterType="${bussPackage}.entity#if($!entityPackage).${entityPackage}#end.$!{className}" >
+<insert id="addSelective" parameterType="${bussPackage}.entity#if($!entityPackage).${entityPackage}#end.$!{className}" >
 #if  ($keyType =='02')
 <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="$!{SQL.keyName}">
 	SELECT UUID()
@@ -50,24 +56,11 @@ where 1=1
   $!{SQL.insert}
 </insert>
 
-<!-- 插入记录 -->
-<insert id="insertSelective" parameterType="${bussPackage}.entity#if($!entityPackage).${entityPackage}#end.$!{className}" >
-#if  ($keyType =='02')
-<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="$!{SQL.keyName}">
-	SELECT UUID()
-  </selectKey>
-#end
-  $!{SQL.insertSelective}
-</insert>
  <!-- 修改记录，只修改只不为空的字段 -->
 <update id="updateByPrimaryKeySelective" parameterType="${bussPackage}.entity#if($!entityPackage).${entityPackage}#end.$!{className}" >
 	$!{SQL.updateSelective}
 </update>
-<!-- 根据id，修改记录-->  
- <update id="updateByPrimaryKey" parameterType="${bussPackage}.entity#if($!entityPackage).${entityPackage}#end.$!{className}" >
-  $!{SQL.update}
- </update>
-  	
+
 <!-- 查询${codeName}列表 -->
 <select id="selectList" resultMap="BaseResultMap"  parameterType="Object">
 	select 
@@ -78,4 +71,18 @@ where 1=1
        order by  ${orderByClause}
     </if>
 </select>
+
+<!-- 查询${codeName}单表数据 -->
+<select id="selectOne" resultMap="BaseResultMap"  parameterType="Object">
+	select
+	<include refid="Base_Column_List"/>
+	from ${tableName}
+	<include refid="Example_Where_Clause"/>
+	<if test="orderByClause != null and orderByClause != ''" >
+		order by  ${orderByClause}
+	</if>
+	limit 1
+</select>
+
+
 </mapper>   
